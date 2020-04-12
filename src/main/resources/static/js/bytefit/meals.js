@@ -60,10 +60,18 @@ function generateTableData(table, data) {
     let row = table.insertRow();
     for (key in element) {
       if (meal_parameters.hasOwnProperty(key)) {
-        let cell = row.insertCell();
-        let cell_text = document.createTextNode(element[key])
-        cell.appendChild(cell_text);
-        break;
+        if (key == 'image') {
+          let imageCell = row.insertCell();
+          var img = document.createElement('img');
+          img.src = element[key];
+          imageCell.appendChild(img);
+        }
+        else {
+          let cell = row.insertCell();
+          let cell_text = document.createTextNode(element[key])
+          cell.appendChild(cell_text);
+          break;
+        }
       }
     }
   }
