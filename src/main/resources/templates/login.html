@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="template :: header"></head>
+
+<body>
+
+    <div th:replace="template :: nav"></div>
+
+    <div class="container loginForm">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <div class="brand_logo_container">
+                        <img th:src="@{/images/byte.png}" class="brand_logo" alt="Logo">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+                    <form action="/users/login" method="POST">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="email" id="email" name="email" class="form-control email"
+                                placeholder="Enter Email" />
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" id="password" name="password" class="form-control password"
+                                placeholder="Enter Password" />
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-3 login_container">
+                            <button type="submit" class="btn btn-danger btn-block">Login</button>
+                        </div>
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-center links">
+                                <p class="lead mt-4">
+                                    No Account? <a href="/register">Register</a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="template :: js"></div>
+
+</body>
+
+</html>
