@@ -60,17 +60,37 @@ function generateTableData(table, data) {
     let row = table.insertRow();
     for (key in element) {
       if (meal_parameters.hasOwnProperty(key)) {
-        if (key == 'image') {
-          let imageCell = row.insertCell();
-          var img = document.createElement('img');
-          img.src = element[key];
-          imageCell.appendChild(img);
-        }
-        else {
-          let cell = row.insertCell();
-          let cell_text = document.createTextNode(element[key])
-          cell.appendChild(cell_text);
-          break;
+        switch (key) {
+          case "image":
+            let imageCell = row.insertCell();
+            var img = document.createElement('img');
+            img.src = element[key];
+            imageCell.appendChild(img);
+            break;
+          case "nutrition":
+            let nutritionCell = row.insertCell();
+            for (i = 0; i < element[key].length; i++) {
+              if (desired_nutrient_data.has(element[key][0].title)) {
+                //To allow for multiple lines to be printed within one cell.
+                nutritionCell.appendChild(document.createTextNode(element[key][i].title + " - " + Math.round(element[key][i].amount) + "g"));
+                nutritionCell.appendChild(document.createElement("br"));
+              }
+              break;
+            }
+            break;
+          case "analyzedInstructions":
+            let instructionsCell = row.insertCell();
+            //To allow for multiple lines to be printed within one cell.
+            for (i = 0; i < element[key][0].steps.length; i++) {
+              instructionsCell.appendChild(document.createTextNode(element[key][0].steps[i].number + ". " + element[key][0].steps[i].step));
+              instructionsCell.appendChild(document.createElement("br"));
+            }
+            break;
+          default:
+            let cell = row.insertCell();
+            let cell_text = document.createTextNode(element[key])
+            cell.appendChild(cell_text);
+            break;
         }
       }
     }
