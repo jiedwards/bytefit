@@ -1,0 +1,17 @@
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+pre,
+ul,
+li {
+    font-family: 'Open Sans', sans-serif;
+}
+
+p, body, span{
+    font-size: 18px;
+}
