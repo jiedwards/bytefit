@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="template :: header"></head>
+
+<body>
+
+    <div th:replace="template :: nav"></div>
+
+    <section class="jumbotron text-center" id="banner">
+        <div class="container">
+            <h1 class="jumbotron-heading">ByteFit</h1>
+            <img th:src="@{/images/byte.png}" class="center" height=20% width=20% />
+
+            <br>
+            <p class="lead text-muted">ByteFit, an application to find what to eat.</p>
+
+
+        </div>
+    </section>
+    <div class="container">
+        <section id="calculation">
+            <div class="text-center">
+
+                <span>I want to eat <input id="calories" type="number" value="2000" /> calories across
+                    <select id="num_meals">
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option selected value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                    </select>
+                    meals
+                    <button type="submit" id="recipeButton" class="btn btn-primary" onclick="generate_simple_mealplan()">
+                        go!
+                    </button></span>
+            </div>
+            <br><br>
+        </section>
+    </div>
+
+
+    <div th:replace="template :: js"></div>
+
+</body>
+
+</html>
