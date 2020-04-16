@@ -1,7 +1,6 @@
-import { api_key } from './credentials.js'
+api_key = '';
 const meal_parameters = {
   'title': 'Recipe Name',
-  'dishTypes': 'Meal Type',
   'analyzedInstructions': 'Instructions',
   'image': '',
   'nutrition': 'Nutritional Data',
@@ -9,22 +8,11 @@ const meal_parameters = {
 };
 const desired_nutrient_data = new Set(['Calories', 'Fat', 'Carbohydrates', 'Protein']);
 
-function generate_simple_mealplan() {
-
-  let calories = document.getElementById("calories").value;
-  let time_frame = document.getElementById("time_frame").value;
-  let url = 'https://api.spoonacular.com/recipes/mealplans/generate?timeFrame=' + time_frame + '&targetCalories=' + calories + '&apiKey=' + api_key;
-
-  fetch(url)
-    .then(data => { return console.log(data.json()) })
-    .then(res => { console.log(res) })
-}
-
 async function generate_complex_mealplan() {
   const calories = document.getElementById("calories").value;
   const num_meals = document.getElementById("num_meals").value;
 
-  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&maxCalories=' + calories + '&instructionsRequired=true&addRecipeNutrition=true&number=' + num_meals + '&apiKey=' + api_key;
+  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&instructionsRequired=true&addRecipeNutrition=true&addRecipeInformation=true&maxCalories=' + calories + '&minCarbs=0&minFat=0&minProtein=0&number=' + num_meals + '&apiKey=' + api_key;
 
   var response = await fetch(url);
   var data = await response.json();
@@ -36,7 +24,7 @@ async function generate_complex_mealplan() {
   table.innerHTML = "";
   document.getElementById("recipeButton").innerHTML = "Re-generate";
   let table_row_headers = Object.keys(table_data[0]);
-  generateTableHead(table, single_data_object);
+  generateTableHead(table, table_row_headers);
   generateTableData(table, table_data);
 }
 
@@ -55,45 +43,65 @@ function generateTableHead(table, data) {
 
 }
 
-function generateTableData(table, data) {
-  for (let element of data) {
-    let row = table.insertRow();
-    for (key in element) {
-      if (meal_parameters.hasOwnProperty(key)) {
-        switch (key) {
+function generateTableData(table, mealplan_data) {
+  for (let mealplan of mealplan_data) {
+    let tableRow = table.insertRow();
+    for (recipe in mealplan) {
+      if (meal_parameters.hasOwnProperty(recipe)) {
+        switch (recipe) {
           case "image":
-            let imageCell = row.insertCell();
+            let imageCell = tableRow.insertCell();
             var img = document.createElement('img');
-            img.src = element[key];
+            img.src = mealplan[recipe];
             imageCell.appendChild(img);
             break;
           case "nutrition":
-            let nutritionCell = row.insertCell();
-            for (i = 0; i < element[key].length; i++) {
-              if (desired_nutrient_data.has(element[key][0].title)) {
+            let nutritionCell = tableRow.insertCell();
+            for (i = 0; i < mealplan[recipe].length; i++) {
+              if (desired_nutrient_data.has(mealplan[recipe][0].title)) {
                 //To allow for multiple lines to be printed within one cell.
-                nutritionCell.appendChild(document.createTextNode(element[key][i].title + " - " + Math.round(element[key][i].amount) + "g"));
+                nutritionCell.appendChild(document.createTextNode(mealplan[recipe][i].title + " - " + Math.round(mealplan[recipe][i].amount) + "g"));
                 nutritionCell.appendChild(document.createElement("br"));
               }
-              break;
             }
             break;
           case "analyzedInstructions":
-            let instructionsCell = row.insertCell();
-            //To allow for multiple lines to be printed within one cell.
-            for (i = 0; i < element[key][0].steps.length; i++) {
-              instructionsCell.appendChild(document.createTextNode(element[key][0].steps[i].number + ". " + element[key][0].steps[i].step));
-              instructionsCell.appendChild(document.createElement("br"));
+            let instructionsCell = tableRow.insertCell();
+            //Dynamically create buttons for each recipe row/cell.
+            var buttonContent = '';
+            for (i = 0; i < mealplan[recipe].length; i++) {
+              buttonContent += "<b>" + mealplan[recipe][i].name + "</b><br />";
+              for (j = 0; j < mealplan[recipe][i].steps.length; j++) {
+                //Recipe instructions being added to popover through loop as they're in separate arrays in the api response.
+                buttonContent += mealplan[recipe][i].steps[j].number + ". " + mealplan[recipe][i].steps[j].step + "<br />";
+              }
             }
+            var button = createPopoverButton(buttonContent);
+            instructionsCell.appendChild(button);
             break;
           default:
-            let cell = row.insertCell();
-            let cell_text = document.createTextNode(element[key])
+            let cell = tableRow.insertCell();
+            let cell_text = document.createTextNode(mealplan[recipe])
             cell.appendChild(cell_text);
             break;
         }
       }
     }
+  }
+
+  function createPopoverButton(buttonInformation) {
+    var button = document.createElement('a');
+    button.innerHTML = 'Instructions';
+    button.setAttribute('data-toggle', 'tooltip');
+    button.setAttribute('class', 'btn btn-primary');
+    button.setAttribute('tabindex', 0);
+    button.setAttribute('role', 'button');
+    button.setAttribute('data-trigger', 'focus');
+    button.setAttribute('data-html', 'true');
+    button.setAttribute('data-placement', "bottom");
+    button.setAttribute("data-content", buttonInformation);
+    $('[data-toggle="tooltip"]').popover();
+    return button;
   }
 }
 
