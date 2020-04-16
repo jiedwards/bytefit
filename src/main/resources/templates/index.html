@@ -13,9 +13,7 @@
             <img th:src="@{/images/byte.png}" class="center" height=20% width=20% />
 
             <br>
-            <p class="lead text-muted">ByteFit, an application to find what to eat.</p>
-
-
+            <p class="lead text-muted">ByteFit, a simplified meal planner.</p>
         </div>
     </section>
     <div class="container">
@@ -202,12 +200,10 @@
                                     <br><br>
                                     <p id="answer"></p>
                                     <p id="macros"></p>
-                                    <% if (userId) { %>
+                                    <p>The result you receive will automatically populate the field on the generator.</p>
                                     <button type="submit" onclick="saveUserCal()" class="btn btn-warning col-md-11">Save
                                         this new calorie intake
                                     </button>
-                                    <% } %>
-
                                 </div>
                             </div>
                         </div>
