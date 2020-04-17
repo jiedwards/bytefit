@@ -1,33 +1,40 @@
 package com.bytefit.MealPlanner.service;
 
+import com.bytefit.MealPlanner.entity.Role;
 import com.bytefit.MealPlanner.entity.User;
+import com.bytefit.MealPlanner.repository.RoleRepository;
 import com.bytefit.MealPlanner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
-@Transactional
 public class UserService {
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+
     @Autowired
-    private UserRepository userRepo;
-
-    public List<User> findAll() {
-        return userRepo.findAll();
+    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
-    public void addNewUser(User user) {
-        userRepo.save(user);
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
-    public User getUser(long userId) {
-        return userRepo.findById(userId).get();
-    }
-
-    public void deleteUser(long userId) {
-        userRepo.deleteById(userId);
+    public User saveUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setActive(true);
+        Role userRole = roleRepository.findByRole("ADMIN");
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        return userRepository.save(user);
     }
 }
