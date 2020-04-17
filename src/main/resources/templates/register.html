@@ -13,41 +13,44 @@
             <h1 class="text-center mb-3">
                 <i class="fas fa-user-plus"></i> Register
             </h1>
-            <% include ./partials/messages %>
-            <form action="/users/register" method="POST">
+            <form autocomplete="off" action="#" th:action="@{/register}"
+                  th:object="${user}" method="post" class="form-horizontal"
+                  role="form">
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="firstName" id="firstName" name="firstName" class="form-control"
-                           placeholder="Enter First Name"/>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="lastName" id="lastName" name="lastName" class="form-control"
-                               placeholder="Enter Last Name"/>
-                    </div>
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email"/>
-                    <div class="form-group">
-                        <label for="mobileNum">Phone Number</label>
-                        <input type="mobileNum" id="mobileNum" name="mobileNum" class="form-control"
-                               placeholder="Enter mobileNum"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" class="form-control"
-                               placeholder="Create Password"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="password2">Confirm Password</label>
-                        <input type="password" id="password2" name="password2" class="form-control"
-                               placeholder="Confirm Password"/>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Register
-                    </button>
+                    <label for="firstname" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"
+                           class="validation-message"></label>
+                    <input type="text" th:field="*{firstname}" placeholder="Name" id="firstname"
+                           class="form-control"/>
                 </div>
+
+                <div class="form-group">
+                    <label for="lastname" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"
+                           class="validation-message"></label>
+                    <input type="text" th:field="*{lastname}" id="lastname" name="lastname"
+                           placeholder="Last Name" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="email"
+                           th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                           class="validation-message">Email</label>
+                    <input type="email" th:field="*{email}" id="email" name="email" placeholder="Email"
+                           class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="password"
+                           th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                           class="validation-message">Password</label>
+                    <input type="password" th:field="*{password}" id="password" name="password"
+                           placeholder="Password" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Register User</button>
+                </div>
+                <p class="lead mt-4">Have An Account? <a href="/login">Login</a></p>
             </form>
-            <p class="lead mt-4">Have An Account? <a href="/login">Login</a></p>
         </div>
+        <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
+
     </div>
 </div>
 

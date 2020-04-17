@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:fragment="header">
     <meta charset="UTF-8">
     <title>ByteFit</title>
@@ -22,11 +22,22 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/register/">Register</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/login/">Login</a>
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <i class="fas fa-user"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a sec:authorize="isAnonymous()" class="dropdown-item" href="/login">Login</a>
+                    <a sec:authorize="isAnonymous()" class="dropdown-item" href="/register">Register</a>
+                    <a sec:authorize="isAuthenticated()" class="dropdown-item" href="/admin/dashboard">Dashboard</a>
+                    <div class="dropdown-divider"></div>
+                    <form th:action="@{/logout}" method="get">
+                        <button sec:authorize="isAuthenticated()" class="dropdown-item" name="register"
+                                type="Submit">Logout
+                        </button>
+                    </form>
+                </div>
             </li>
         </ul>
     </div>
@@ -34,30 +45,31 @@
 
 
 <div th:fragment="js">
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
 
-<!-- ByteFit Code -->
-<script th:src="@{/js/bytefit/calorie_calc.js}"></script>
-<script th:src="@{/js/bytefit/meals.js}"></script>
-<!-- Optional JavaScript -->
-<script th:src="@{/js/thirdparty/fontawesome.js}"></script>
-<script src="https://unpkg.com/popper.js@1"></script>
-<script src="https://unpkg.com/tippy.js@4"></script>
-<script>
+    <!-- ByteFit Code -->
+    <script th:src="@{/js/bytefit/calorie_calc.js}"></script>
+    <script th:src="@{/js/bytefit/meals.js}"></script>
+    <!-- Optional JavaScript -->
+    <script th:src="@{/js/thirdparty/fontawesome.js}"></script>
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@4"></script>
+    <script>
             $(document).on("click", ".navbar-right .dropdown-menu", function (e) {
                 e.stopPropagation();
             });
 
-</script>
+
+    </script>
 </div>
 
 </body>
