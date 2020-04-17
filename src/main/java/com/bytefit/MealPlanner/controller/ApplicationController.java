@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -23,9 +24,24 @@ public class ApplicationController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/")
-    public String viewHomePage() {
-        return "index";
+    @RequestMapping(value="/", method = RequestMethod.GET)
+    public ModelAndView viewHomePage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ModelAndView updateUserCalories(@RequestParam(value = "userCalories") Integer calorieIntake) {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User userExists = userService.findUserByEmail(auth.getName());
+        modelAndView.setViewName("index");
+        if (userExists != null) {
+            System.out.println("User calorie intake is " + calorieIntake + ". ID is " + userExists.getId());
+            modelAndView.addObject("calorieSaved", "Calorie recommendation (" + calorieIntake +  ") has been successfully saved and updated.");
+        }
+        return modelAndView;
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
@@ -71,7 +87,6 @@ public class ApplicationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("email", "Welcome " + user.getFirstname() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
         modelAndView.setViewName("admin/dashboard");
         return modelAndView;
     }

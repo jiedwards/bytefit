@@ -5,7 +5,7 @@
 
 # Bytefit
 
-This application allows a user to generate calorie intake recommendations which are then supplemented by generated meal plans.
+This application allows a user to generate and store calorie intake recommendations which are then supplemented by generated meal plans.
 
 ## Demonstration 
 

@@ -14,6 +14,12 @@
 
             <br>
             <p class="lead text-muted">ByteFit, a simplified meal planner.</p>
+
+            <div class="panel-heading">
+                <span th:utext="${userId}"></span>
+                <span th:utext="${userCalories}"></span>
+
+            </div>
         </div>
     </section>
     <div class="container">
@@ -38,6 +44,8 @@
                     </button></span>
             </div>
             <br><br>
+
+            <h2><span class="text-success" th:utext="${calorieSaved}"></span></h2>
 
             <div>
                 </br>
@@ -202,10 +210,8 @@
                                     <p id="macros"></p>
                                     <p>The result you receive will automatically populate the field on the generator.</p>
                                     <form th:action="@{/}" method="POST">
-                                        <button sec:authorize="isAuthenticated()" class="btn btn-warning col-md-11" name="calorieIntakeSave"
-                                                type="Submit">Save
-                                            this as my new calorie intake
-                                        </button>
+                                        <button sec:authorize="isAuthenticated()" class="btn btn-warning col-md-11" value=2200
+                                                name="userCalories" type="Submit">Save this as my new calorie intake</button>
                                     </form>
                                 </div>
                             </div>
