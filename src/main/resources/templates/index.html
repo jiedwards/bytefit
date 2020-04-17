@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:replace="template :: header"></head>
 
@@ -33,7 +33,7 @@
                         <option value='9'>9</option>
                     </select>
                     meals
-                    <button type="submit" id="recipeButton" class="btn btn-primary" onclick="generate_complex_mealplan()">
+                    <button type="submit" id="recipeButton" class="btn btn-primary" onclick="generateComplexMealplan()">
                         go!
                     </button></span>
             </div>
@@ -201,9 +201,12 @@
                                     <p id="answer"></p>
                                     <p id="macros"></p>
                                     <p>The result you receive will automatically populate the field on the generator.</p>
-                                    <button type="submit" onclick="saveUserCal()" class="btn btn-warning col-md-11">Save
-                                        this new calorie intake
-                                    </button>
+                                    <form th:action="@{/}" method="POST">
+                                        <button sec:authorize="isAuthenticated()" class="btn btn-warning col-md-11" name="calorieIntakeSave"
+                                                type="Submit">Save
+                                            this as my new calorie intake
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

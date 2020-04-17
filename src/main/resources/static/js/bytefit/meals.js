@@ -1,18 +1,18 @@
-api_key = '';
-const meal_parameters = {
+apiKey = '';
+const mealParameters = {
   'title': 'Recipe Name',
   'analyzedInstructions': 'Instructions',
   'image': '',
   'nutrition': 'Nutritional Data',
   'readyInMinutes': 'Time to prepare'
 };
-const desired_nutrient_data = new Set(['Calories', 'Fat', 'Carbohydrates', 'Protein']);
+const desiredNutrientData = new Set(['Calories', 'Fat', 'Carbohydrates', 'Protein']);
 
-async function generate_complex_mealplan() {
+async function generateComplexMealplan() {
   const calories = document.getElementById("calories").value;
-  const num_meals = document.getElementById("num_meals").value;
+  const numMeals = document.getElementById("num_meals").value;
 
-  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&instructionsRequired=true&addRecipeNutrition=true&addRecipeInformation=true&maxCalories=' + calories + '&minCarbs=0&minFat=0&minProtein=0&number=' + num_meals + '&apiKey=' + api_key;
+  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&instructionsRequired=true&addRecipeNutrition=true&addRecipeInformation=true&maxCalories=' + calories + '&minCarbs=0&minFat=0&minProtein=0&number=' + numMeals + '&apiKey=' + apiKey;
 
   var response = await fetch(url);
   var data = await response.json();
@@ -33,9 +33,9 @@ function generateTableHead(table, data) {
   let thead = table.createTHead();
   let row = thead.insertRow();
   for (let property_header of data) {
-    if (meal_parameters.hasOwnProperty(property_header)) {
+    if (mealParameters.hasOwnProperty(property_header)) {
       let th = document.createElement("th");
-      let text = document.createTextNode(meal_parameters[property_header]);
+      let text = document.createTextNode(mealParameters[property_header]);
       th.appendChild(text);
       row.appendChild(th);
     }
@@ -47,7 +47,7 @@ function generateTableData(table, mealplan_data) {
   for (let mealplan of mealplan_data) {
     let tableRow = table.insertRow();
     for (recipe in mealplan) {
-      if (meal_parameters.hasOwnProperty(recipe)) {
+      if (mealParameters.hasOwnProperty(recipe)) {
         switch (recipe) {
           case "image":
             let imageCell = tableRow.insertCell();
@@ -58,7 +58,7 @@ function generateTableData(table, mealplan_data) {
           case "nutrition":
             let nutritionCell = tableRow.insertCell();
             for (i = 0; i < mealplan[recipe].length; i++) {
-              if (desired_nutrient_data.has(mealplan[recipe][0].title)) {
+              if (desiredNutrientData.has(mealplan[recipe][0].title)) {
                 //To allow for multiple lines to be printed within one cell.
                 nutritionCell.appendChild(document.createTextNode(mealplan[recipe][i].title + " - " + Math.round(mealplan[recipe][i].amount) + "g"));
                 nutritionCell.appendChild(document.createElement("br"));
