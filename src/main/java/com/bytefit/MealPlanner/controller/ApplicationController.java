@@ -38,7 +38,7 @@ public class ApplicationController {
         User userExists = userService.findUserByEmail(auth.getName());
         modelAndView.setViewName("index");
         if (userExists != null) {
-            System.out.println("User calorie intake is " + calorieIntake + ". ID is " + userExists.getId());
+            userService.updateUserCalories(userExists, calorieIntake);
             modelAndView.addObject("calorieSaved", "Calorie recommendation (" + calorieIntake +  ") has been successfully saved and updated.");
         }
         return modelAndView;

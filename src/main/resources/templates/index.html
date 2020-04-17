@@ -210,7 +210,7 @@
                                     <p id="macros"></p>
                                     <p>The result you receive will automatically populate the field on the generator.</p>
                                     <form th:action="@{/}" method="POST">
-                                        <button sec:authorize="isAuthenticated()" class="btn btn-warning col-md-11" value=2200
+                                        <button sec:authorize="isAuthenticated()" value="2000" class="btn btn-warning col-md-11" id="userCalorieValue"
                                                 name="userCalories" type="Submit">Save this as my new calorie intake</button>
                                     </form>
                                 </div>

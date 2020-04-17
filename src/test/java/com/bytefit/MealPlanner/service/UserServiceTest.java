@@ -35,6 +35,7 @@ public class UserServiceTest {
                 .firstname("Paul")
                 .lastname("Felder")
                 .email("test@test.com")
+                .calories(1300)
                 .build();
 
         Mockito.when(userRepository.save(any()))
@@ -53,6 +54,15 @@ public class UserServiceTest {
     public void testSaveUser() {
         User result = userService.saveUser(User.builder().build());
         assertEquals(EMAIL, result.getEmail());
+    }
+
+    @Test
+    public void testUpdateUserCalories() {
+        Integer calorieIntake = 2700;
+        User userOne = userService.saveUser(User.builder().build());
+        userOne.setCalories(calorieIntake);
+        User updatedUserOne = userRepository.save(userOne);
+        assertEquals(calorieIntake, updatedUserOne.getCalories());
     }
 
 }

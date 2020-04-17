@@ -114,6 +114,7 @@ function calculate() {
     //if yes then it prints cal's and macros
     else {
         document.getElementById("calories").value = result;
+        document.getElementById("userCalorieValue").value = result;
         document.getElementById("answer").innerHTML = "Your expected calorie intake (daily) is: " + result;
         document.getElementById("macros").innerHTML = "A balanced macronutrient ratio for you would be: " +
             "Carbs: " + carbs + "g " +

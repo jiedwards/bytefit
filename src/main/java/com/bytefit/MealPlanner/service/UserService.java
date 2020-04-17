@@ -37,4 +37,9 @@ public class UserService {
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return userRepository.save(user);
     }
+
+    public User updateUserCalories(User user, Integer calorieIntake){
+        user.setCalories(calorieIntake);
+        return userRepository.save(user);
+    }
 }
