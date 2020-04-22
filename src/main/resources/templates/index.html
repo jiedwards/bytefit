@@ -20,6 +20,39 @@
     <div class="container">
         <section id="calculation">
             <div class="text-center">
+                <div sec:authorize="isAnonymous()">
+                    <p>Sign up for an account for extra features (more dietary choices, ability to store caloric calculation).</p>
+                </div>
+
+                <div sec:authorize="isAuthenticated()">
+                <h5>Dietary Options</h5><br>
+                <div id="dietChoice" class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active">
+                        <input type="radio" id="noDietButton" name="diet" value="" checked="checked"> Anything
+                    </label>
+                    <label class="btn btn-warning">
+                        <input type="radio" id="veganButton" name="diet" value="vegan"> Vegan
+                    </label>
+                    <!--Restricts dietary choices for users without accounts, allowing for a reduction in meal plan complexity processing-->
+                        <label class="btn btn-success">
+                            <input type="radio" id="ketogenicButton" name="diet" value="ketogenicButton"> Ketogenic
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" id="vegetarianButton" name="diet" value="vegetarian"> Vegetarian
+                        </label>
+                        <label class="btn btn-danger">
+                            <input type="radio" id="paleoButton" name="diet" value="paleo"> Paleo
+                        </label>
+                        <label class="btn btn-info">
+                            <input type="radio" id="pescetarianButton" name="diet" value="pescetarian"> Pescetarian
+                        </label>
+                        <label class="btn btn-warning">
+                            <input type="radio" id="glutenfreeButton" name="diet" value="gluten free"><i
+                                class="fas fa-question-circle"></i>
+                            Gluten Free</label>
+                    </div>
+                </div>
+                <br><br>
 
                 <span>I want to eat <input id="calories" type="number" value="2000" /> calories across
                     <select id="num_meals">

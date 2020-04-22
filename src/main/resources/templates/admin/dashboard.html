@@ -17,8 +17,8 @@
                     <div class="panel-body">
                         <img th:src="@{/images/byte.png}" class="img-responsive center-block" width="375" height="400"
                             alt="Bytefit logo" />
-                    </div>
-                    <span th:utext="'Saved Caloric Value:' + ${userCalories}"></span>
+                    </div><br>
+                    <span th:utext="'Last Saved Caloric Value: ' + ${userCalories}"></span>
                     <p>Would you like to generate a meal plan with this value? </p> 
                     <button type="submit" id="navigateToMealPlanButton" th:value="${userCalories}" class="btn btn-info" onclick="navigateToMealPlanGenerator()">
                         Take me to the meal plan generator!

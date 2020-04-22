@@ -11,8 +11,12 @@ const desiredNutrientData = new Set(['Calories', 'Fat', 'Carbohydrates', 'Protei
 async function generateComplexMealplan() {
   const calories = document.getElementById("calories").value;
   const numMeals = document.getElementById("num_meals").value;
+  let dietChoice = "";
+  if (document.querySelector('input[name="diet"]:checked')) {
+    let dietChoice = document.querySelector('input[name="diet"]:checked').value;
+  }
 
-  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&instructionsRequired=true&addRecipeNutrition=true&addRecipeInformation=true&maxCalories=' + calories + '&minCarbs=0&minFat=0&minProtein=0&number=' + numMeals + '&apiKey=' + apiKey;
+  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&instructionsRequired=true&addRecipeNutrition=true&addRecipeInformation=true&maxCalories=' + calories + '&minCarbs=0&minFat=0&minProtein=0&number=' + numMeals + '&diet=' + dietChoice + '&apiKey=' + apiKey;
 
   var response = await fetch(url);
   var data = await response.json();
