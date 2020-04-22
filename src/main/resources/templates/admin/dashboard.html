@@ -1,30 +1,45 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="template :: header"></head>
 
 <body>
 
-<div th:replace="template :: nav"></div>
-<div class="container">
+    <div th:replace="template :: nav"></div>
+    <div class="container">
+        <div class="text-center">
 
-    <div class="panel-group" style="margin-top:40px">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span th:utext="${email}"></span>
+            <div class="panel-group" style="margin-top:40px">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span th:utext="${email}"></span>
+                    </div>
+                    <div class="panel-body">
+                        <img th:src="@{/images/byte.png}" class="img-responsive center-block" width="375" height="400"
+                            alt="Bytefit logo" />
+                    </div>
+                    <span th:utext="'Saved Caloric Value:' + ${userCalories}"></span>
+                    <p>Would you like to generate a meal plan with this value? </p> 
+                    <button type="submit" id="navigateToMealPlanButton" th:value="${userCalories}" class="btn btn-info" onclick="navigateToMealPlanGenerator()">
+                        Take me to the meal plan generator!
+                    </button>
+                </div>
             </div>
-            <div class="panel-body">
-                <img th:src="@{/images/beer.jpg}" class="img-responsive center-block" width="400" height="400"
-                     alt="Beer"/>
+
+            <br><br>
+            <div class="container-fluid">
+                <table class="table table-hover table-dark">
+                    <thead class="thead-light">
+
+                    </thead>
+                </table>
             </div>
-            <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+
         </div>
     </div>
 
-</div>
-
-<div th:replace="template :: js"></div>
+    <div th:replace="template :: js"></div>
 
 </body>
+
 </html>

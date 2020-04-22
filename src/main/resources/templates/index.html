@@ -3,7 +3,7 @@
 
 <head th:replace="template :: header"></head>
 
-<body>
+<body onload="caloricVerification()">
 
     <div th:replace="template :: nav"></div>
 
@@ -15,11 +15,6 @@
             <br>
             <p class="lead text-muted">ByteFit, a simplified meal planner.</p>
 
-            <div class="panel-heading">
-                <span th:utext="${userId}"></span>
-                <span th:utext="${userCalories}"></span>
-
-            </div>
         </div>
     </section>
     <div class="container">
@@ -43,7 +38,7 @@
                         go!
                     </button></span>
             </div>
-            <br><br>
+            <br>
 
             <h2><span class="text-success" th:utext="${calorieSaved}"></span></h2>
 
@@ -52,7 +47,8 @@
                 <div class="text-center">
                     <button type="button" class="btn btn-success" data-toggle="modal" onclick="unitChoice(this)"
                         data-target="#caloriescalc">
-                        How many calories do I need?
+                        How many calories do I need? <i
+                            class="fas fa-question-circle"></i>
                     </button>
                 </div>
                 <div class="modal fade" id="caloriescalc" tabindex="-1" role="dialog"
@@ -208,10 +204,12 @@
                                     <br><br>
                                     <p id="answer"></p>
                                     <p id="macros"></p>
-                                    <p>The result you receive will automatically populate the field on the generator.</p>
+                                    <p>The result you receive will automatically populate the field on the generator.
+                                    </p>
                                     <form th:action="@{/}" method="POST">
-                                        <button sec:authorize="isAuthenticated()" value="2000" class="btn btn-warning col-md-11" id="userCalorieValue"
-                                                name="userCalories" type="Submit">Save this as my new calorie intake</button>
+                                        <button sec:authorize="isAuthenticated()" value="2000"
+                                            class="btn btn-warning col-md-11" id="userCalorieValue" name="userCalories"
+                                            type="Submit">Save this as my new calorie intake</button>
                                     </form>
                                 </div>
                             </div>
@@ -225,11 +223,11 @@
 
     <br><br>
     <div class="container-fluid">
-    <table class="table table-hover table-dark">
-        <thead class="thead-light">
+        <table class="table table-hover table-dark">
+            <thead class="thead-light">
 
-        </thead>
-    </table>
+            </thead>
+        </table>
     </div>
 
 

@@ -87,6 +87,7 @@ public class ApplicationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("email", "Welcome " + user.getFirstname() + " " + user.getLastname() + " (" + user.getEmail() + ")");
+        modelAndView.addObject("userCalories", user.getCalories());
         modelAndView.setViewName("admin/dashboard");
         return modelAndView;
     }
