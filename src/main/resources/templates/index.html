@@ -26,7 +26,7 @@
 
                 <div sec:authorize="isAuthenticated()">
                 <h5>Dietary Options</h5><br>
-                <div id="dietChoice" class="btn-group btn-group-toggle" data-toggle="buttons">
+                <div id="dietChoice" class="btn-group flex-wrap btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-secondary active">
                         <input type="radio" id="noDietButton" name="diet" value="" checked="checked"> Anything
                     </label>
@@ -54,7 +54,7 @@
                 </div>
                 <br><br>
 
-                <span>I want to eat <input id="calories" type="number" value="2000" /> calories across
+                <span>I want to eat <input id="calories" type="number" min="200" max="8000" value="2000" /> calories across
                     <select id="num_meals">
                         <option value='1'>1</option>
                         <option value='2'>2</option>
@@ -255,7 +255,7 @@
     </div>
 
     <br><br>
-    <div class="container-fluid">
+    <div class="container-fluid table-responsive">
         <table class="table table-hover table-dark">
             <thead class="thead-light">
 

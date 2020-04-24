@@ -3,8 +3,8 @@ const mealParameters = {
   'title': 'Recipe Name',
   'analyzedInstructions': 'Instructions',
   'image': '',
-  'nutrition': 'Nutritional Data',
-  'readyInMinutes': 'Time to prepare'
+  'nutrition': 'Nutrition',
+  'readyInMinutes': 'Prep time'
 };
 const desiredNutrientData = new Set(['Calories', 'Fat', 'Carbohydrates', 'Protein']);
 
@@ -57,6 +57,7 @@ function generateTableData(table, mealplan_data) {
             let imageCell = tableRow.insertCell();
             var img = document.createElement('img');
             img.src = mealplan[recipe];
+            img.id = "recipeImage";
             imageCell.appendChild(img);
             break;
           case "nutrition":
@@ -64,7 +65,7 @@ function generateTableData(table, mealplan_data) {
             for (i = 0; i < mealplan[recipe].length; i++) {
               if (desiredNutrientData.has(mealplan[recipe][0].title)) {
                 //To allow for multiple lines to be printed within one cell.
-                nutritionCell.appendChild(document.createTextNode(mealplan[recipe][i].title + " - " + Math.round(mealplan[recipe][i].amount) + "g"));
+                nutritionCell.appendChild(document.createTextNode(mealplan[recipe][i].title + " - " + Math.round(mealplan[recipe][i].amount) + mealplan[recipe][i].unit));
                 nutritionCell.appendChild(document.createElement("br"));
               }
             }
@@ -97,7 +98,7 @@ function generateTableData(table, mealplan_data) {
     var button = document.createElement('a');
     button.innerHTML = 'Instructions';
     button.setAttribute('data-toggle', 'tooltip');
-    button.setAttribute('class', 'btn btn-primary');
+    button.setAttribute('class', 'btn btn-danger btn-responsive');
     button.setAttribute('tabindex', 0);
     button.setAttribute('role', 'button');
     button.setAttribute('data-trigger', 'focus');
