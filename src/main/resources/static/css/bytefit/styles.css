@@ -144,8 +144,19 @@ table th {
 }
 
 @media screen and (max-width: 768px) {
-  table,
+  #recipeImage {
+    min-width: 90px;
+    max-width: 100%;
+  }
+
   td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    font-size: small;
+  }
+
+  table {
     font-size: small;
   }
 }

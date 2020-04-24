@@ -15,61 +15,74 @@
             <br>
             <p class="lead text-muted">ByteFit, a simplified meal planner.</p>
 
+            <div sec:authorize="isAnonymous()">
+                    <span>
+                        <a href="#" class="btn btn-danger text-center" onmouseover="moreInfo(this)" id="signupTooltip">
+                            Registered member perks <i class="fas fa-star"></i>
+                        </a>
+                    </span>
+            </div>
+
         </div>
     </section>
     <div class="container">
         <section id="calculation">
             <div class="text-center">
-                <div sec:authorize="isAnonymous()">
-                    <p>Sign up for an account for extra features (more dietary choices, ability to store caloric calculation).</p>
-                </div>
 
                 <div sec:authorize="isAuthenticated()">
-                <h5>Dietary Options</h5><br>
-                <div id="dietChoice" class="btn-group flex-wrap btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                        <input type="radio" id="noDietButton" name="diet" value="" checked="checked"> Anything
-                    </label>
-                    <label class="btn btn-warning">
-                        <input type="radio" id="veganButton" name="diet" value="vegan"> Vegan
-                    </label>
-                    <!--Restricts dietary choices for users without accounts, allowing for a reduction in meal plan complexity processing-->
-                        <label class="btn btn-success">
-                            <input type="radio" id="ketogenicButton" name="diet" value="ketogenicButton"> Ketogenic
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" id="vegetarianButton" name="diet" value="vegetarian"> Vegetarian
-                        </label>
-                        <label class="btn btn-danger">
-                            <input type="radio" id="paleoButton" name="diet" value="paleo"> Paleo
-                        </label>
-                        <label class="btn btn-info">
-                            <input type="radio" id="pescetarianButton" name="diet" value="pescetarian"> Pescetarian
-                        </label>
-                        <label class="btn btn-warning">
-                            <input type="radio" id="glutenfreeButton" name="diet" value="gluten free"><i
-                                class="fas fa-question-circle"></i>
-                            Gluten Free</label>
+                    <h5>Dietary Options</h5><br>
+                    <div id="dietChoice" class="btn-group flex-wrap btn-group-toggle" data-toggle="buttons">
+                        <span>
+                            <label class="btn btn-secondary active">
+                                <input type="radio" id="noDietButton" name="diet" value="" checked="checked"> Anything
+                            </label>
+                            <label class="btn btn-warning">
+                                <input type="radio" id="veganButton" name="diet" value="vegan"> Vegan
+                            </label>
+                            <!--Restricts dietary choices for users without accounts, allowing for a reduction in meal plan complexity processing-->
+                            <label class="btn btn-success">
+                                <input type="radio" id="ketogenicButton" name="diet" value="ketogenicButton"> Ketogenic
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" id="vegetarianButton" name="diet" value="vegetarian"> Vegetarian
+                            </label>
+                            <label class="btn btn-danger">
+                                <input type="radio" id="paleoButton" name="diet" value="paleo"> Paleo
+                            </label>
+                            <label class="btn btn-info">
+                                <input type="radio" id="pescetarianButton" name="diet" value="pescetarian"> Pescetarian
+                            </label>
+                            <label class="btn btn-warning">
+                                <input type="radio" id="glutenfreeButton" name="diet" value="gluten free"> Gluten
+                                Free</label>
+                            <a href="#" class="tooltipped btn-floating btn-small indigo darken-4"
+                                onmouseover="moreInfo(this)" id="dietaryTooltip">
+                                <i class="fas fa-question-circle fa-lg"></i>
+                            </a>
+                        </span>
                     </div>
                 </div>
                 <br><br>
 
-                <span>I want to eat <input id="calories" type="number" min="200" max="8000" value="2000" /> calories across
-                    <select id="num_meals">
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option selected value='4'>4</option>
-                        <option value='5'>5</option>
-                        <option value='6'>6</option>
-                        <option value='7'>7</option>
-                        <option value='8'>8</option>
-                        <option value='9'>9</option>
-                    </select>
-                    meals
-                    <button type="submit" id="recipeButton" class="btn btn-primary" onclick="generateComplexMealplan()">
-                        go!
-                    </button></span>
+                <form onsubmit="generateComplexMealplan();return false">
+                    <span>I want to eat <input id="calories" style="width:4em" type="number" min="200" max="8000" value="2000" /> calories
+                        across
+                        <select id="num_meals">
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                            <option selected value='4'>4</option>
+                            <option value='5'>5</option>
+                            <option value='6'>6</option>
+                            <option value='7'>7</option>
+                            <option value='8'>8</option>
+                            <option value='9'>9</option>
+                        </select>
+                        meals
+                        <button type="submit" id="recipeButton" class="btn btn-primary">
+                            go!
+                        </button></span>
+                </form>
             </div>
             <br>
 
@@ -80,8 +93,7 @@
                 <div class="text-center">
                     <button type="button" class="btn btn-success" data-toggle="modal" onclick="unitChoice(this)"
                         data-target="#caloriescalc">
-                        How many calories do I need? <i
-                            class="fas fa-question-circle"></i>
+                        How many calories do I need? <i class="fas fa-question-circle"></i>
                     </button>
                 </div>
                 <div class="modal fade" id="caloriescalc" tabindex="-1" role="dialog"
@@ -254,12 +266,26 @@
         </section>
     </div>
 
-    <br><br>
-    <div class="container-fluid table-responsive">
-        <table class="table table-hover table-dark">
-            <thead class="thead-light">
+    <br>
 
+    <div sec:authorize="isAuthenticated()" class="container">
+        <div class="row float-right">
+            <button type="submit" id="mealPlanPdfButton" style="display:none" class="btn btn-secondary"
+                onclick="generateMealPlanPDF()">
+                <i class="fas fa-save"></i> Save to PDF
+            </button>
+        </div>
+    </div>
+    <br><br>
+
+    <div class="container-fluid table-responsive">
+
+        <table id="mealPlanTable" class="table table-hover table-dark">
+            <thead class="thead-light">
             </thead>
+            <tbody>
+
+            </tbody>
         </table>
     </div>
 
