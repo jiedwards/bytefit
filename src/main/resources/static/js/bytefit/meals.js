@@ -7,7 +7,8 @@ const mealParameters = {
   'analyzedInstructions': 'Instructions',
   'image': 'Image',
   'nutrition': 'Nutrition',
-  'readyInMinutes': 'Prep time'
+  'readyInMinutes': 'Prep time',
+  'missedIngredients': 'Ingredients'
 };
 const desiredNutrientData = new Set(['Calories', 'Fat', 'Carbohydrates', 'Protein']);
 
@@ -15,11 +16,11 @@ async function generateComplexMealplan() {
   const calories = document.getElementById("calories").value;
   const numMeals = document.getElementById("num_meals").value;
   let dietChoice = "";
-  if (document.querySelector('input[name="diet"]:checked')) {
-    let dietChoice = document.querySelector('input[name="diet"]:checked').value;
+  if (document.querySelector('input[name="diet"]:checked') != null) {
+    dietChoice = document.querySelector('input[name="diet"]:checked').value;
   }
 
-  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&instructionsRequired=true&addRecipeNutrition=true&addRecipeInformation=true&maxCalories=' + calories + '&minCarbs=0&minFat=0&minProtein=0&number=' + numMeals + '&diet=' + dietChoice + '&apiKey=' + apiKey;
+  const url = 'https://api.spoonacular.com/recipes/complexSearch?sort=random&instructionsRequired=true&fillIngredients=true&addRecipeNutrition=true&addRecipeInformation=true&maxCalories=' + calories + '&minCarbs=0&minFat=0&minProtein=0&number=' + numMeals + '&diet=' + dietChoice + '&apiKey=' + apiKey;
 
   var response = await fetch(url);
   var data = await response.json();
@@ -34,17 +35,22 @@ async function generateComplexMealplan() {
   generateTableHead(table, table_row_headers);
   generateTableData(table, table_data);
   var mealPlanPdfButton = document.getElementById("mealPlanPdfButton");
-  if (mealPlanPdfButton.style.display === "none") {
+  if (mealPlanPdfButton != null) {
     mealPlanPdfButton.style.display = "block";
   }
+  console.log(table);
 }
 
 function generateMealPlanPDF() {
   var doc = new jsPDF('landscape');
-  doc.text('Your Meal Plan!', 10, 10)
+  doc.text('Your Bytefit Meal Plan!', 10, 10)
   doc.autoTable({
     head: [pdfTableHeaderData],
-    body: pdfTableBodyData
+    body: pdfTableBodyData,
+    columnStyles: {
+      0: { cellWidth: 25 }, 1: { cellWidth: 10 }, 2: { cellWidth: 20 }, 3:
+        { cellWidth: 20 }, 4: { cellWidth: 'auto' }, 5: { cellWidth: 40 }
+    }
   })
   doc.save('MealPlan_' + Date.now() + '_.pdf');
 }
@@ -58,6 +64,23 @@ function generateTableHead(table, data) {
       let th = document.createElement("th");
       let text = document.createTextNode(mealParameters[property_header]);
       th.appendChild(text);
+      switch (property_header) {
+        case "image":
+          th.style.width = "20%";
+          break;
+        case "nutrition":
+          th.style.width = "15%";
+          break;
+        case "missedIngredients":
+          th.style.width = "35%";
+          break;
+        case "analyzedInstructions":
+          th.style.width = "10%";
+          break;
+        default:
+          th.style.width = "10%";
+          break;
+      }
       row.appendChild(th);
       // Creates an array of the headers for the PDF table
       pdfTableHeaderData.push(mealParameters[property_header]);
@@ -95,6 +118,18 @@ function generateTableData(table, mealplan_data, canvas) {
               }
             }
             meal_data.push(nutritionHtmlText);
+            break;
+          case "missedIngredients":
+            let ingredientsCell = tableRow.insertCell();
+            var ingredientsHtmlText = '';
+            for (i = 0; i < mealplan[recipe].length; i++) {
+              //To allow for multiple lines to be printed within one cell.
+              individualIngredient = mealplan[recipe][i].originalString + "\n";
+              ingredientsHtmlText += individualIngredient;
+              ingredientsCell.appendChild(document.createTextNode(individualIngredient));
+              ingredientsCell.appendChild(document.createElement("br"));
+            }
+            meal_data.push(ingredientsHtmlText);
             break;
           case "analyzedInstructions":
             let instructionsCell = tableRow.insertCell();

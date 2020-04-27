@@ -134,7 +134,7 @@ span {
 }
 
 table th {
-  width: auto !important;
+  table-layout: fixed;
 }
 
 #recipeImage {

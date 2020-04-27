@@ -29,34 +29,7 @@ function unitChoice(choice) {
         $("#metricUnits").show()
     }
 }
-// Displays more information on certain area's of the page when scrolled over.
-function moreInfo(choice) {
 
-    tippy('#goalTooltip', {
-        placement: 'right',
-        content: "Why we need this data? <br><h7>If <u>lose weight</u> is chosen, a calorie defecit of 500 calories is applied with the aim to lose 1lb per week</h7><br><h7>If <u>gain weight</u> is chosen, a calorie surplus of 500 calories is applied with the aim to gain 1lb per week</h7><br><h7>If <u>maintain weight</u> is chosen, no calorie defecit/surplus is applied</h7>",
-    })
-
-    tippy('#activityTooltip', {
-        placement: 'right',
-        content: "Why we need this data? <br><h7>To provide you with an accurate calorie reading, it's important to know how active you are on a daily basis as this factor contributes to your daily calorie allowance.</h7> <br> <h7><u>Sedentary</u>: Very little exercise weekly </h7><br><h7><u>Lightly Active</u>: Light Exercise: 1-3 days per week </h7><br><h7><u>Moderately Active</u>: A good amount of exercise, 5-7 times per week </h7><br><h7><u>Very Active</u>: Hard Exercise Daily: 2x's per day </h7><br><h7><u>Extremely Active</u>: Hard Exercise: Twice or more daily, marathon training, triathalon etc. </h7>",
-    })
-
-    tippy('#dietaryTooltip', {
-        placement: 'right',
-        content: "Dietary Options: <br> <h7> To be added </h7>",
-    })
-
-    tippy('#signupTooltip', {
-        placement: 'right',
-        content: "<ul>" +
-            "<li>Save meal plans to PDF</li>" +
-            "<li>Dietary choices</li>" +
-            "<li>Save caloric calculations</li>" +
-            "</ul>" +
-            "<p> Sign up for an account to take advantage of these benefits </p>"
-    })
-}
 //Function to calculate user calorie intake.
 function calculate() {
     //retrieves the values selected on the form to calculate a users' calorie intake.
